@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 30">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        letter-spacing: 0em;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        letter-spacing: -.05em;
+      }
+
+      .cls-7 {
+        letter-spacing: 0em;
+      }
+
+      .cls-8 {
+        letter-spacing: 0em;
+      }
+
+      .cls-9 {
+        letter-spacing: 0em;
+      }
+
+      .cls-3 {
+        font-family: LeagueSpartan-Bold, 'League Spartan';
+        font-size: 20.67px;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1" data-name="Layer 1">
+    <g>
+      <polygon class="cls-2" points="28.33 25.14 16.06 4.86 3.8 25.14 9.41 25.14 16.06 14.2 18.24 17.8 18.24 17.81 22.68 25.14 28.33 25.14"/>
+      <polygon class="cls-2" points="22.68 25.14 18.24 17.81 13.77 25.14 22.68 25.14"/>
+    </g>
+  </g>
+  <g id="Layer_2" data-name="Layer 2">
+    <text class="cls-3" transform="translate(25.63 20.42)"><tspan class="cls-1" x="0" y="0">v</tspan><tspan class="cls-5" x="12.96" y="0">e</tspan><tspan x="25.38" y="0">r</tspan><tspan class="cls-6" x="35.68" y="0">y</tspan><tspan class="cls-7" x="47.83" y="0">.i</tspan><tspan class="cls-9" x="61.29" y="0">n</tspan><tspan x="74.85" y="0">su</tspan><tspan class="cls-4" x="98.58" y="0">r</tspan><tspan class="cls-8" x="108.75" y="0">e</tspan></text>
+  </g>
+</svg>
