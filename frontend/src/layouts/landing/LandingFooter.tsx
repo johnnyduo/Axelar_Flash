@@ -56,7 +56,7 @@ const LandingFooter: NextPage = () => {
             </div>
             <div className="col-xl-4">
               <div className="bottom-widget">
-                <img className="img-fluid" src="/images/hapathon2023.png" width="230"/>
+                <img className="img-fluid" src="https://images.prismic.io/uphold/bef31cfd-244c-465c-87bd-07468cd44540_AXL%402x.png?auto=compress,format" width="230"/>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ const LandingFooter: NextPage = () => {
                 <p>
                   © Copyright {new Date().getFullYear()}{" "}
                   <Link href="/">
-                    <a target="_blank"> Very.Insure </a>
+                    <a target="_blank"> FlashBridge.lol </a>
                   </Link>
                   I All Rights Reserved
                 </p>

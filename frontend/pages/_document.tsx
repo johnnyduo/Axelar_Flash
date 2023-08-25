@@ -16,7 +16,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>Very.Insure - Decentralized L2 Optimism Grant Protection</title>
+          <title>THe Flash Bridge - Instant Cross Chain Protocol powered by Axelar</title>
           <link
             rel="icon"
             type="image/png"
