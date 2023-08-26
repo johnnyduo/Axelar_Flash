@@ -58,7 +58,6 @@ const Index: NextPage = () => {
                         <option value="origin">ORIGIN</option>
                         <option value="Avax">Avax</option>
 
-
                       </select>
                       <input
                         type="text"
