@@ -52,18 +52,19 @@ const Index: NextPage = () => {
                   }}
                 >
                   <div className="col-12">
-                    <label className="form-label">Enter Your Total Grant Amount</label>
+                    <label className="form-label">Enter Your Amount</label>
                     <div className="input-group">
                       <select className="form-control" name="method">
-                        <option value="bank">14th OP GRANTS</option>
-                        <option value="master">AXELAR GRANTS</option>
+                        <option value="origin">ORIGIN</option>
+                        <option value="Avax">Avax</option>
+
 
                       </select>
                       <input
                         type="text"
                         name="currency_amount"
                         className="form-control"
-                        placeholder="35,000 OP"
+                        placeholder="0.00 USDC"
                       />
                     </div>
                   </div>
@@ -71,28 +72,28 @@ const Index: NextPage = () => {
                     <label className="form-label">Price</label>
                     <div className="input-group">
                       <select className="form-control" name="method">
-                        <option value="bank">eOP</option>
-                        <option value="master">USDC</option>
+                        <option value="dest">DEST</option>
+                        <option value="Fantom">USDC</option>
                       </select>
                       <input
                         type="text"
                         name="currency_amount"
                         className="form-control"
-                        placeholder="0.3 USDC"
+                        placeholder="0.00 USDC"
                       />
                     </div>
                   </div>
                   <p className="mb-0">
-                   1 eOP token ~ 0.3 USDC{" "}
+                   Flash Bridge ~ 0.3 sec{" "}
                     <span className="text-primary d-inline">
-                      Estimated Rate <br />
+                      Estimated Time <br />
                       No extra fees
                     </span>
                   </p>
                   <input
                     type="submit"
                     className="btn btn-primary"
-                    value="Quote Now"
+                    value="Flash Now"
                   />
                 </form>
               </div>
