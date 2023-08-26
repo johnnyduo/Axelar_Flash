@@ -11,7 +11,7 @@ const DashboardSidebar: FC = () => {
       <div className="brand-logo">
         <Link href="/">
           <a>
-            <img src="/images/logo_square.svg" alt="" width="30" height="30" />
+            <img src="/images/axl_flash_square_logo.png" alt="" width="30" height="30" />
           </a>
         </Link>
       </div>

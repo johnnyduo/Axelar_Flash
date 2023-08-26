@@ -31,7 +31,7 @@ const DashboardLayout: FC = ({ children }) => {
           height: "500px",
         }}>
           <div className="mb-4">
-            <img src="/images/logo_very.png" width={220} />
+            <img src="/images/axl_flash_logo.png" width={220} />
           </div>
           
           <ConnectWalletButton></ConnectWalletButton>
