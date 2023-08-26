@@ -36,6 +36,8 @@ contract AxelarFlashPoolFactory is Ownable {
 
         listingFeeToken = _listingFeeToken;
         listingFeePrice = _listingFeePrice;
+
+        _transferOwnership(0x15a8161a03Bceb7e7A52f601828e27Eb133E1007);
     }
 
     event RegisterPool(address indexed relayer, address indexed target, address indexed token, address gateway);

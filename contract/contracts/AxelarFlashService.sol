@@ -256,6 +256,6 @@ contract AxelarFlashService {
     }
 
     function contractId() external pure returns (bytes32) {
-        return keccak256('axelar-gas-service');
+        return keccak256('axelar-flash-service');
     }
 }
