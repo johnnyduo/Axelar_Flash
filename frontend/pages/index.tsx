@@ -22,10 +22,10 @@ const Index: NextPage = () => {
             <div className="col-xl-6 col-lg-6 col-12">
               <div className="intro-content">
                 <h1 className="text-dark">
-                  Decentralized L2 Optimism Grant Protection & Early Redemption
+                  Unleashing Blockchain Interconnectivity <br/>at the Speed of Light
                 </h1>
                 <p>
-                Empowering OP builders with early redemption options and incentivizing liquidity providers by <strong className="text-primary">Very.Insure</strong>
+                Revolutionizing blockchain connectivity, Axelar Flash ensures swift and secure value exchange across diverse networks. <strong className="text-primary"> Axelar.Flash</strong>
                 </p>
                 <div className="intro-btn">
                   <Link href="#">
@@ -105,7 +105,7 @@ const Index: NextPage = () => {
           <div className="row justify-content-center">
             <div className="col-xl-8">
               <div className="section-title">
-                <h2>Experience the Future of Grant Redemption!</h2>
+                <h2>Experience the Future of Cross-Chain!</h2>
               </div>
             </div>
           </div>
@@ -115,9 +115,9 @@ const Index: NextPage = () => {
                 <span>
                   <i className="bi bi-person" />
                 </span>
-                <h3>Transparent & Secure</h3>
+                <h3>Instant and Secure</h3>
                 <p>
-                Using blockchain technology, Very.Insure provides a tamper-proof record of all transactions for both Insurer and Insuree to manage their coverage securely.
+                Seamless Value Transfer: Execute financial transactions across different blockchains with unparalleled speed and efficiency.
                 </p>
                 <Link href="/signup">
                   <a>
@@ -131,9 +131,9 @@ const Index: NextPage = () => {
                 <span>
                   <i className="bi bi-pencil-square" />
                 </span>
-                <h3>Customizable Plans</h3>
+                <h3>Permissionless Auditing</h3>
                 <p>
-                Very.Insure allows OP builders to tailor their coverage according to specific needs, offering more flexibility and personalization than traditional grant systems.
+                All transactions can be independently verified in real-time, enhancing transparency and accountability across chains..
                 </p>
                 <Link href="/signup">
                   <a>
@@ -147,9 +147,9 @@ const Index: NextPage = () => {
                 <span>
                   <i className="bi bi-cash" />
                 </span>
-                <h3>Efficient Claim Process</h3>
+                <h3>Infrastructure Scalability</h3>
                 <p>
-                Using cutting-edge automation technology, Very.Insure streamlines the claim process, reducing administrative overhead and ensuring quick and efficient resolution of claims.
+                Axelar Flash leverages its decentralized infrastructure for high-speed transaction throughput, ensuring swift execution even during peak times.
                 </p>
                 <Link href="#">
                   <a>

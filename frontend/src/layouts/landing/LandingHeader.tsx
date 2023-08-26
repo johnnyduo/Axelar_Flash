@@ -22,12 +22,12 @@ const LandingHeader: NextPage = () => {
                   <Link href="/">
                     <a>
                       <img
-                        src="/images/logo_very.png" width={200}
+                        src="/images/axl_flash_logo.png" width={200}
                         alt="Logo"
                         className="logo-primary"
                       />
                       <img
-                        src="/images/logow.png"
+                        src="/images/axl_flash_logo_w.png"
                         alt="Logo"
                         className="logo-white"
                       />
@@ -60,17 +60,7 @@ const LandingHeader: NextPage = () => {
                       <a
                         className="nav-link"
                         href="#"
-                        data-toggle="dropdown"
-                        onClick={() => setValue("Pages")}
-                      >
-                        Packages
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        href="#"
-                        onClick={() => window.open("https://doc.very.insure",'_blank')}
+                        onClick={() => window.open("#",'_blank')}
                       >
                         Docs
                       </a>
