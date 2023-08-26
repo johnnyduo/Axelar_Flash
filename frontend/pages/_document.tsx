@@ -16,12 +16,12 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>THe Flash Bridge - Instant Cross Chain Protocol powered by Axelar</title>
+          <title>Axelar Flash - Instant Cross Chain Protocol powered by Axelar</title>
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/images/logo_square.svg"
+            href="/images/axl_flash_square_logo.png"
           />
           <link
             href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap"

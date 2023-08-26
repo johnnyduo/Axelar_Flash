@@ -9,28 +9,19 @@ const LandingFooter: NextPage = () => {
           <div className="row">
             <div className="col-xl-4">
               <div className="bottom-logo">
-                <img className="pb-3" src="/images/logo_very_w.png" width="200" alt="" />
+                <img className="pb-3" src="/images/axl_flash_logo_w.png" width="200" alt="" />
 
                 <p>
-                  Very.Insure is disrupting the grant redemption and protection sector with its decentralized, web3 platform powered by blockchain technology and smart contracts. Providing secure, transparent coverage with customizable options and efficient claim processing.
+                  The Axelar Flash project is at the forefront of innovation, dedicated to pushing the boundaries of decentralized exchange and communication within the blockchain ecosystem. Our cutting-edge solution tackles the limitations of blockchain networks head-on, ushering in a new era of efficient and rapid interoperability.
                 </p>
               </div>
             </div>
             <div className="col-xl-2">
               <div className="bottom-widget">
-                <h4 className="widget-title">Company</h4>
+                <h4 className="widget-title">Team</h4>
                 <ul>
                   <li>
                     <Link href="#">About</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Career</Link>
-                  </li>
-                  <li>
-                    <Link href="#">App</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Our Team</Link>
                   </li>
                 </ul>
               </div>
@@ -44,12 +35,6 @@ const LandingFooter: NextPage = () => {
                   </li>
                   <li>
                     <Link href="#">FAQ</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Blog</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Helpdesk</Link>
                   </li>
                 </ul>
               </div>
@@ -70,9 +55,9 @@ const LandingFooter: NextPage = () => {
                 <p>
                   © Copyright {new Date().getFullYear()}{" "}
                   <Link href="/">
-                    <a target="_blank"> FlashBridge.lol </a>
+                    <a target="_blank"> Axelar.Flash </a>
                   </Link>
-                  I All Rights Reserved
+                 All Rights Reserved
                 </p>
               </div>
             </div>
