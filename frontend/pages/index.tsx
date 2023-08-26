@@ -52,7 +52,7 @@ const Index: NextPage = () => {
                   }}
                 >
                   <div className="col-12">
-                    <label className="form-label">Enter Your Amount</label>
+                    <label className="form-label">Enter Your Bridge Amount</label>
                     <div className="input-group">
                       <select className="form-control" name="method">
                         <option value="origin">ORIGIN</option>
@@ -69,7 +69,7 @@ const Index: NextPage = () => {
                     </div>
                   </div>
                   <div className="col-12">
-                    <label className="form-label">Price</label>
+                    <label className="form-label">Received Amount</label>
                     <div className="input-group">
                       <select className="form-control" name="method">
                         <option value="dest">DEST</option>
