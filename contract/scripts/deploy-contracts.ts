@@ -14,6 +14,7 @@ const GATEWAY: {[chainId: number]: `0x${string}`} = {
 async function deployContract(name: string, nonce: number, args: any[]) {
   const contract = await ethers.deployContract(name, args, {
     nonce,
+    // gasPrice: 1000000000,
   });
 
   await contract.waitForDeployment();
@@ -31,6 +32,7 @@ async function main() {
   
   if (!GATEWAY[chainId]) {
     console.log("Gateway not found")
+    return;
 
     GATEWAY[chainId] = '0x0000000000000000000000000000000000000000'
   }

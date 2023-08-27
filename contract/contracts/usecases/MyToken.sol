@@ -30,7 +30,8 @@ contract MyToken is ERC20, ERC20Burnable, Ownable, AxelarFlashExecutable {
         thisAddress = AddressToString.toString(address(this));
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    // Free mint for hackathon
+    function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
 

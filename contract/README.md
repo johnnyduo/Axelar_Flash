@@ -1,13 +1,11 @@
-# Sample Hardhat Project
+# Axelar Flash @ Axelathon
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+AxelarFlashService 0xc4f4EcAAb1ed73a303c3f47675F65E89d05F930b
+AxelarFlashPool 0x96183D43554a4217cb41Ed657b562E3FA0d20Caa
+AxelarFlashPoolFactory 0x9B99d8C6c65618872E89279F9Ea9C53092e5A03c
+MyToken 0x8fC08644565130c915609CF861951eDc0049F59f
+MyToken 0xf6d7177c9aC3A61B03D78CF22BDb792352701fc6
+MyToken 0x15D96EF4cec48E9C56C866b885DD4Ec24f00DdDF
+MyNFT 0xc4719c31396898cF18d3A796725A60A93CaF98ea
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+Same address across ETH Goerli, OP, ARB, Avalanche, Fantom
