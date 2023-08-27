@@ -38,13 +38,14 @@ contract MyToken is ERC20, ERC20Burnable, Ownable, AxelarFlashExecutable {
 
     function bridge(
         string calldata destinationChain,
-        uint256 amount
+        uint256 amount,
+        uint256 nonce
     ) external payable {
         // Lock (Burn) token in the source chain
         _burn(msg.sender, amount);
 
         // ABI encode payload
-        bytes memory payload = abi.encode(msg.sender, amount);
+        bytes memory payload = abi.encode(msg.sender, amount, nonce);
 
         // Pay gas fee to gas receiver contract
         if (msg.value > 0) {

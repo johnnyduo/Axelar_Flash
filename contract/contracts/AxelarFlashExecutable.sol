@@ -29,7 +29,8 @@ contract AxelarFlashExecutable is ExpressExecutorTracker {
         if (!gateway.validateContractCall(commandId, sourceChain, sourceAddress, payloadHash))
             revert NotApprovedByGateway();
 
-        address expressExecutor = _popExpressExecutor(commandId, sourceChain, sourceAddress, payloadHash);
+        // address expressExecutor = _popExpressExecutor(commandId, sourceChain, sourceAddress, payloadHash);
+        address expressExecutor = _popExpressExecutor(payloadHash, sourceChain, sourceAddress, payloadHash);
 
         if (expressExecutor != address(0)) {
             _executeReturnToExpress(expressExecutor, sourceChain, sourceAddress, payload);
@@ -61,8 +62,16 @@ contract AxelarFlashExecutable is ExpressExecutorTracker {
             )
         ) revert NotApprovedByGateway();
 
+        // address expressExecutor = _popExpressExecutorWithToken(
+        //     commandId,
+        //     sourceChain,
+        //     sourceAddress,
+        //     payloadHash,
+        //     tokenSymbol,
+        //     amount
+        // );
         address expressExecutor = _popExpressExecutorWithToken(
-            commandId,
+            payloadHash,
             sourceChain,
             sourceAddress,
             payloadHash,
@@ -97,14 +106,15 @@ contract AxelarFlashExecutable is ExpressExecutorTracker {
         string calldata sourceAddress,
         bytes calldata payload
     ) external payable virtual {
-        if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
+        // if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
 
         address expressExecutor = msg.sender;
         bytes32 payloadHash = keccak256(payload);
 
         emit ExpressExecuted(commandId, sourceChain, sourceAddress, payloadHash, expressExecutor);
 
-        _setExpressExecutor(commandId, sourceChain, sourceAddress, payloadHash, expressExecutor);
+        // _setExpressExecutor(commandId, sourceChain, sourceAddress, payloadHash, expressExecutor);
+        _setExpressExecutor(payloadHash, sourceChain, sourceAddress, payloadHash, expressExecutor);
 
         _executeWithExpress(expressExecutor, sourceChain, sourceAddress, payload);
     }
@@ -117,7 +127,7 @@ contract AxelarFlashExecutable is ExpressExecutorTracker {
         string calldata symbol,
         uint256 amount
     ) external payable virtual {
-        if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
+        // if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
 
         address expressExecutor = msg.sender;
         address gatewayToken = gateway.tokenAddresses(symbol);
@@ -133,8 +143,18 @@ contract AxelarFlashExecutable is ExpressExecutorTracker {
             expressExecutor
         );
 
+        // _setExpressExecutorWithToken(
+        //     commandId,
+        //     sourceChain,
+        //     sourceAddress,
+        //     payloadHash,
+        //     symbol,
+        //     amount,
+        //     expressExecutor
+        // );
+
         _setExpressExecutorWithToken(
-            commandId,
+            payloadHash,
             sourceChain,
             sourceAddress,
             payloadHash,

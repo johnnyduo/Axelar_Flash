@@ -12,12 +12,13 @@ const defaultAbiCoder = ethers.AbiCoder.defaultAbiCoder()
 // Message only: 0xa0f27aeb034e4f9babfa62f6060c3817dbcf3f19727d8a82f74a718bb747baa5
 // Message with token: 0xef03770873c38cd000bf363b8edcd8ef5a621aa58e2d8849784edd9b72c8a997
 
-describe("Test ERC20 token bridge", function () {
+describe("Test NFT cross-chain buying", function () {
   let eth: Network, avalanche: Network;
   let ethUserWallet: Wallet, avalancheUserWallet: Wallet;
   let ethRootUserWallet: Wallet, avalancheRootUserWallet: Wallet;
   let usdcEthContract: Contract, usdcAvalancheContract: Contract;
   let ethContract: Contract, avalancheContract: Contract;
+  let ethToken: Contract, avalancheToken: Contract;
 
   let ethFlashPoolFactory: Contract, ethFlashService: Contract;
   let avaxFlashPoolFactory: Contract, avaxFlashService: Contract;
@@ -26,7 +27,7 @@ describe("Test ERC20 token bridge", function () {
 
   before(async () => {
     // Bootstraping networks
-    const bootstrap = await bootstrapNetworks(1)
+    const bootstrap = await bootstrapNetworks(2)
 
     eth = bootstrap.eth;
     avalanche = bootstrap.avalanche;
@@ -46,14 +47,14 @@ describe("Test ERC20 token bridge", function () {
 
     // Deploy MyToken
     const MyToken = await artifacts.readArtifact("MyToken")
-    ethContract = await deployContract(ethUserWallet, MyToken, [
+    ethToken = await deployContract(ethUserWallet, MyToken, [
       "My Token",
       "MY",
       eth.gateway.address,
       eth.gasService.address,
       ethFlashService.address,
     ])
-    avalancheContract = await deployContract(avalancheUserWallet, MyToken, [
+    avalancheToken = await deployContract(avalancheUserWallet, MyToken, [
       "My Token",
       "MY",
       avalanche.gateway.address,
@@ -61,8 +62,29 @@ describe("Test ERC20 token bridge", function () {
       avaxFlashService.address,
     ])
 
-    console.log("ETH Token:", ethContract.address)
-    console.log("Avalanche Token:", avalancheContract.address)
+    // Deploy MyNFT
+    const MyNFT = await artifacts.readArtifact("MyNFT")
+    ethContract = await deployContract(ethUserWallet, MyNFT, [
+      "My NFT",
+      "MY",
+      ethToken.address,
+      10e6,
+      eth.gateway.address,
+      eth.gasService.address,
+      ethFlashService.address,
+    ])
+    avalancheContract = await deployContract(avalancheUserWallet, MyNFT, [
+      "My NFT",
+      "MY",
+      avalancheToken.address,
+      10e6,
+      avalanche.gateway.address,
+      avalanche.gasService.address,
+      avaxFlashService.address,
+    ])
+
+    console.log("ETH NFT:", ethContract.address)
+    console.log("Avalanche NFT:", avalancheContract.address)
 
     // Link destination chain contract
     // await ethContract.connect(ethUserWallet).setDestinationAddress(eth.name, ethContract.address).then((tx: ContractTransaction) => tx.wait());
@@ -76,12 +98,12 @@ describe("Test ERC20 token bridge", function () {
     await eth.giveToken(ethUserWallet.address, "aUSDC", BigInt(1e6));
     await (await usdcEthContract.connect(ethUserWallet).approve(ethFlashPoolFactory.address, 1e6)).wait()
 
-    await (await ethFlashPoolFactory.connect(ethUserWallet).registerPool(ethContract.address, ethContract.address)).wait()
-    await (await avaxFlashPoolFactory.connect(avalancheUserWallet).registerPool(avalancheContract.address, avalancheContract.address)).wait()
+    await (await ethFlashPoolFactory.connect(ethUserWallet).registerPool(ethContract.address, ethToken.address)).wait()
+    await (await avaxFlashPoolFactory.connect(avalancheUserWallet).registerPool(avalancheContract.address, avalancheToken.address)).wait()
 
     const FlashPool = await artifacts.readArtifact("AxelarFlashPool")
-    ethFlashPool = new Contract(await ethFlashPoolFactory.getFlashPoolAddress(ethContract.address, ethContract.address), FlashPool.abi, eth.provider)
-    avaxFlashPool = new Contract(await avaxFlashPoolFactory.getFlashPoolAddress(avalancheContract.address, avalancheContract.address), FlashPool.abi, avalanche.provider)
+    ethFlashPool = new Contract(await ethFlashPoolFactory.getFlashPoolAddress(ethContract.address, ethToken.address), FlashPool.abi, eth.provider)
+    avaxFlashPool = new Contract(await avaxFlashPoolFactory.getFlashPoolAddress(avalancheContract.address, avalancheToken.address), FlashPool.abi, avalanche.provider)
 
     // const FlashPoolFactory = await artifacts.readArtifact("AxelarFlashPoolFactory")
     // const aaa = new Contract(ethFlashPoolFactory.address, FlashPoolFactory.abi, eth.provider)
@@ -89,20 +111,18 @@ describe("Test ERC20 token bridge", function () {
     // console.log(await aaa.getFlashPoolAddress(ethContract.address, ethContract.address))
   })
 
-  it("Should mint token on the source chain", async () => {
-    // Mint tokens on the source chain (Ethereum)
-    await ethContract.connect(ethUserWallet).mint(ethUserWallet.address, BigInt(100e6));
-    expect((await ethContract.balanceOf(ethUserWallet.address)).toNumber()).to.equal(100e6)
-  })
-
   it("Flash Pool liquidity provisioning", async () => {
     // Mint tokens to FlashPool on the source chain (Ethereum)
-    await ethContract.connect(ethUserWallet).mint(await ethFlashPool.address, BigInt(100e6));
-    expect((await ethContract.balanceOf(await ethFlashPool.address)).toNumber()).to.equal(100e6)
+    await ethToken.connect(ethUserWallet).mint(await ethFlashPool.address, BigInt(100e6));
+    expect((await ethToken.balanceOf(await ethFlashPool.address)).toNumber()).to.equal(100e6)
 
     // Mint tokens to FlashPool on the destination chain (Avalanche)
-    await avalancheContract.connect(avalancheUserWallet).mint(await avaxFlashPool.address, BigInt(100e6));
-    expect((await avalancheContract.balanceOf(await avaxFlashPool.address)).toNumber()).to.equal(100e6)
+    await avalancheToken.connect(avalancheUserWallet).mint(await avaxFlashPool.address, BigInt(100e6));
+    expect((await avalancheToken.balanceOf(await avaxFlashPool.address)).toNumber()).to.equal(100e6)
+
+    // Mint to eth user for buying NFT
+    await ethToken.connect(ethUserWallet).mint(await ethUserWallet.address, BigInt(20e6));
+    expect((await ethToken.balanceOf(await ethUserWallet.address)).toNumber()).to.equal(20e6)
   })
 
   // Check revert cases
@@ -116,20 +136,21 @@ describe("Test ERC20 token bridge", function () {
   //     )).to.be.throw // Should use .to.be.reverted once axelar-local-dev has migrated to ethers-v6
   // })
 
-  // Bridge through source chain contract
-  it("Should bridge token through source chain contract", async () => {
-    const initialBalanceETH = 100e6;
+  // Buy NFT through source chain contract
+  it("Should buy NFT through source chain contract", async () => {
+    const initialBalanceETH = 20e6;
     const initialBalanceAvax = 0;
-    const amount = 40e6
+    const amount = 10e6
+
+    await (await ethToken.connect(ethUserWallet).approve(ethContract.address, amount)).wait()
 
     const nonce = Math.floor(Math.random() * 1000000000)
 
     // Send message through source chain contract to the Avalanche network
     const ethGatewayTx = await ethContract
       .connect(ethUserWallet)
-      .bridge(
+      .buy(
         avalanche.name,
-        amount,
         nonce,
         { value: utils.parseEther("0.01") }
       )
@@ -144,31 +165,33 @@ describe("Test ERC20 token bridge", function () {
     // Flash execution on destination chain contract
     // await avaxFlashPool.flashExecute("", eth.name, ethContract.address)
 
-    expect((await ethContract.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceETH - amount)
-    expect((await avalancheContract.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceAvax + amount)
-    expect((await avalancheContract.balanceOf(avalancheContract.address)).toNumber()).to.equal(amount)
-    expect((await avalancheContract.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6 - amount)
+    expect((await avalancheContract.ownerOf(1))).to.equal(ethUserWallet.address)
+    expect((await ethToken.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceETH - amount)
+    expect((await avalancheToken.balanceOf(ethUserWallet.address)).toNumber()).to.equal(0)
+    expect((await avalancheToken.balanceOf(avalancheContract.address)).toNumber()).to.equal(amount)
+    expect((await avalancheToken.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6 - amount)
 
     // Relay the transactions
     await relay();
 
-    expect((await avalancheContract.balanceOf(avalancheContract.address)).toNumber()).to.equal(0)
-    expect((await avalancheContract.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6)
+    expect((await avalancheToken.balanceOf(avalancheContract.address)).toNumber()).to.equal(0)
+    expect((await avalancheToken.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6)
   })
 
-  it("Should bridge remaining token through source chain contract", async () => {
-    const initialBalanceETH = 60e6;
-    const initialBalanceAvax = 40e6;
-    const amount = 60e6
+  it("Should be able to buy second NFT", async () => {
+    const initialBalanceETH = 10e6;
+    const initialBalanceAvax = 10e6;
+    const amount = 10e6
+
+    await (await ethToken.connect(ethUserWallet).approve(ethContract.address, amount)).wait()
 
     const nonce = Math.floor(Math.random() * 1000000000)
 
     // Send message through source chain contract to the Avalanche network
     const ethGatewayTx = await ethContract
       .connect(ethUserWallet)
-      .bridge(
+      .buy(
         avalanche.name,
-        amount,
         nonce,
         { value: utils.parseEther("0.01") }
       )
@@ -183,16 +206,17 @@ describe("Test ERC20 token bridge", function () {
     // Flash execution on destination chain contract
     // await avaxFlashPool.flashExecute("", eth.name, ethContract.address)
 
-    expect((await ethContract.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceETH - amount)
-    expect((await avalancheContract.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceAvax + amount)
-    expect((await avalancheContract.balanceOf(ethContract.address)).toNumber()).to.equal(amount)
-    expect((await avalancheContract.balanceOf(ethFlashPool.address)).toNumber()).to.equal(100e6 - amount)
+    expect((await avalancheContract.ownerOf(2))).to.equal(ethUserWallet.address)
+    expect((await ethToken.balanceOf(ethUserWallet.address)).toNumber()).to.equal(initialBalanceETH - amount)
+    expect((await avalancheToken.balanceOf(ethUserWallet.address)).toNumber()).to.equal(0)
+    expect((await avalancheToken.balanceOf(avalancheContract.address)).toNumber()).to.equal(amount)
+    expect((await avalancheToken.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6 - amount)
 
     // Relay the transactions
     await relay();
 
-    expect((await avalancheContract.balanceOf(ethContract.address)).toNumber()).to.equal(0)
-    expect((await avalancheContract.balanceOf(ethFlashPool.address)).toNumber()).to.equal(100e6)
+    expect((await avalancheToken.balanceOf(avalancheContract.address)).toNumber()).to.equal(0)
+    expect((await avalancheToken.balanceOf(avaxFlashPool.address)).toNumber()).to.equal(100e6)
   })
 
   // // Log the token balances

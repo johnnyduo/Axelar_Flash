@@ -20,6 +20,7 @@ contract AxelarFlashPool is Initializable, ERC721Holder, ERC1155Holder {
     event FlashExecute(bytes32 indexed command, string sourceChain, string sourceAddress, bytes payload);
     event FlashExecuteWithToken(bytes32 indexed command, string sourceChain, string sourceAddress, bytes payload, string symbol, uint256 amount);
 
+    address public factory;
     address public relayer;
     IAxelarGateway public gateway;
     IAxelarExpressExecutable public target;
@@ -33,6 +34,7 @@ contract AxelarFlashPool is Initializable, ERC721Holder, ERC1155Holder {
         address _target,
         address _token
     ) public initializer {
+        factory = msg.sender;
         relayer = _relayer;
         gateway = IAxelarGateway(_gateway);
         target = IAxelarExpressExecutable(_target);
@@ -47,7 +49,7 @@ contract AxelarFlashPool is Initializable, ERC721Holder, ERC1155Holder {
         string calldata sourceAddress,
         bytes calldata payload
     ) external payable virtual {
-        if (msg.sender != relayer) revert NotRelayer(msg.sender);
+        if (msg.sender != relayer && msg.sender != factory) revert NotRelayer(msg.sender);
         if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
 
         target.expressExecute(
@@ -73,7 +75,7 @@ contract AxelarFlashPool is Initializable, ERC721Holder, ERC1155Holder {
         string calldata symbol,
         uint256 amount
     ) external payable virtual {
-        if (msg.sender != relayer) revert NotRelayer(msg.sender);
+        if (msg.sender != relayer && msg.sender != factory) revert NotRelayer(msg.sender);
         if (gateway.isCommandExecuted(commandId)) revert AlreadyExecuted();
 
         target.expressExecuteWithToken(

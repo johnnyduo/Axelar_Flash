@@ -44,21 +44,18 @@ contract MyNFT is ERC721, ERC721Burnable, Ownable, AxelarFlashExecutable {
         thisAddress = AddressToString.toString(address(this));
     }
 
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
-    }
-
     event Buy(string destinationChain, string destinationAddress);
 
     // Send message
     function buy(
-        string calldata destinationChain
+        string calldata destinationChain,
+        uint256 nonce
     ) external payable {
         // Pay minting fee on source chain
         mintFeeToken.transferFrom(msg.sender, address(this), mintFee);
 
         // ABI encode payload
-        bytes memory payload = abi.encode(msg.sender);
+        bytes memory payload = abi.encode(msg.sender, nonce);
 
         // Pay gas fee to gas receiver contract
         if (msg.value > 0) {
@@ -105,7 +102,7 @@ contract MyNFT is ERC721, ERC721Burnable, Ownable, AxelarFlashExecutable {
         (address to) = abi.decode(payload, (address));
 
         // TODO: Unlock (Mint) token
-        _mint(to, ++currentTokenId);
+        _safeMint(to, ++currentTokenId);
 
         // TODO: Emit event
         emit Unlock(to, currentTokenId);

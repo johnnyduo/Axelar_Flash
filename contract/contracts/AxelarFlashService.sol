@@ -16,7 +16,7 @@ contract AxelarFlashService {
         address indexed sourceAddress,
         string destinationChain,
         string destinationAddress,
-        bytes32 indexed payloadHash,
+        bytes payload,
         address flashToken,
         address gasToken,
         uint256 gasFeeAmount,
@@ -27,7 +27,7 @@ contract AxelarFlashService {
         address indexed sourceAddress,
         string destinationChain,
         string destinationAddress,
-        bytes32 indexed payloadHash,
+        bytes payload,
         string symbol,
         uint256 amount,
         address flashToken,
@@ -40,7 +40,7 @@ contract AxelarFlashService {
         address indexed sourceAddress,
         string destinationChain,
         string destinationAddress,
-        bytes32 indexed payloadHash,
+        bytes payload,
         address flashToken,
         uint256 gasFeeAmount,
         address refundAddress
@@ -50,7 +50,7 @@ contract AxelarFlashService {
         address indexed sourceAddress,
         string destinationChain,
         string destinationAddress,
-        bytes32 indexed payloadHash,
+        bytes payload,
         string symbol,
         uint256 amount,
         address flashToken,
@@ -91,7 +91,7 @@ contract AxelarFlashService {
             sender,
             destinationChain,
             destinationAddress,
-            keccak256(payload),
+            payload,
             flashToken,
             gasToken,
             gasFeeAmount,
@@ -118,7 +118,7 @@ contract AxelarFlashService {
             sender,
             destinationChain,
             destinationAddress,
-            keccak256(payload),
+            payload,
             symbol,
             amount,
             flashToken,
@@ -139,7 +139,7 @@ contract AxelarFlashService {
     ) external payable {
         if (msg.value == 0) revert NothingReceived();
 
-        emit NativeGasPaidForFlashContractCall(sender, destinationChain, destinationAddress, keccak256(payload), flashToken, msg.value, refundAddress);
+        emit NativeGasPaidForFlashContractCall(sender, destinationChain, destinationAddress, payload, flashToken, msg.value, refundAddress);
     }
 
     // This is called on the source chain before calling the gateway to execute a remote contract.
@@ -159,7 +159,7 @@ contract AxelarFlashService {
             sender,
             destinationChain,
             destinationAddress,
-            keccak256(payload),
+            payload,
             symbol,
             amount,
             flashToken,
