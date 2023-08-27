@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  axelarflash-relayer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always

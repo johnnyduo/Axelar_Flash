@@ -27,8 +27,11 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      goerli: "NTNSS97MT1UAHEQF58ZCC2QJ2D95CBMWU3",
       ftmTestnet: "KHS7ZTEFRZWRPTC95I8KGJ6YUY5JV47M5E",
       avalancheFujiTestnet: "41FFT9AVVWKFVY3DUYGVNU739SEZX4UM3S",
+      optimisticGoerli: "RZWW1P82PTKQNU8HIIYYSKGF1ZDAKN98QB",
+      arbitrumGoerli: "8D52YD1NUC186S5QRQFSDG1FI2WINH1PH3",
     }
   },
   networks: {
