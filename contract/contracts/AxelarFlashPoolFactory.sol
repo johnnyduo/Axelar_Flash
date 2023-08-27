@@ -34,7 +34,7 @@ interface IAxelarFlashPool {
 
 contract AxelarFlashPoolFactory is Ownable {
     address public immutable relayer;
-    IAxelarGateway public gateway;
+    IAxelarGateway public immutable gateway;
     address public immutable implementation;
 
     IERC20 public listingFeeToken;
@@ -44,16 +44,21 @@ contract AxelarFlashPoolFactory is Ownable {
 
     constructor(
         address _relayer,
-        address _implementation
+        address _implementation,
+        IAxelarGateway _gateway,
+        address _owner
     ) {
         relayer = _relayer;
         implementation = _implementation;
+        gateway = _gateway;
+
+        _transferOwnership(_owner);
     }
 
     // Hackathon only
-    function setGateway(IAxelarGateway _gateway) public onlyOwner {
-        gateway = _gateway;
-    }
+    // function setGateway(IAxelarGateway _gateway) public onlyOwner {
+    //     gateway = _gateway;
+    // }
 
     function setListingFee(
         IERC20 _listingFeeToken,

@@ -47,15 +47,19 @@ export async function bootstrapNetworks(walletIndex = 0) {
     ethFlashPoolFactory = await deployContract(ethRootUserWallet, FlashPoolFactory, [
       ethRootUserWallet.address,
       (await deployContract(ethRootUserWallet, FlashPool)).address,
+      eth.gateway.address,
+      ethRootUserWallet.address,
     ])
 
     avaxFlashPoolFactory = await deployContract(avalancheRootUserWallet, FlashPoolFactory, [
       avalancheRootUserWallet.address,
       (await deployContract(avalancheRootUserWallet, FlashPool)).address,
+      avalanche.gateway.address,
+      avalancheRootUserWallet.address,
     ])
 
-    await (await ethFlashPoolFactory.connect(ethRootUserWallet).setGateway(eth.gateway.address)).wait();
-    await (await avaxFlashPoolFactory.connect(avalancheRootUserWallet).setGateway(avalanche.gateway.address)).wait();
+    // await (await ethFlashPoolFactory.connect(ethRootUserWallet).setGateway(eth.gateway.address)).wait();
+    // await (await avaxFlashPoolFactory.connect(avalancheRootUserWallet).setGateway(avalanche.gateway.address)).wait();
 
     await (await ethFlashPoolFactory.connect(ethRootUserWallet).setListingFee(usdcEthContract.address, 1e6)).wait();
 
