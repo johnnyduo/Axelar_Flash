@@ -71,7 +71,8 @@ async function relay(sourceChainId, log) {
         '0x0000000000000000000000000000000000000000000000000000000000000000', 
         NETWORKS[sourceChainId].name, 
         data.args[0], 
-        data.args[3]
+        data.args[3],
+        destChainId == 420 ? { gasPrice: 10000000 } : {},
       )
   
       tx.wait().then(receipt => (
