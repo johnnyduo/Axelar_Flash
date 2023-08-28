@@ -75,9 +75,9 @@ async function relay(sourceChainId, log) {
         destChainId == 420 ? { gasPrice: 10000000 } : {},
       )
   
-      tx.wait().then(receipt => (
-        console.log("Relayed", NETWORKS[sourceChainId].name, NETWORKS[chainName2Id[data.args[1]]].name, receipt.hash)
-      )).catch(err => console.error(err))
+      const receipt = await tx.wait()
+
+      console.log("Relayed", NETWORKS[sourceChainId].name, NETWORKS[chainName2Id[data.args[1]]].name, receipt.hash)
     }
   } catch (err) {
     console.error(err)
