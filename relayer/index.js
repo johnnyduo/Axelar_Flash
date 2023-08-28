@@ -90,6 +90,8 @@ async function relay(sourceChainId, log) {
   } catch (err) {
     console.error(err)
     console.log("Relay ERROR")
+
+    setTimeout(() => RELAYED.add(`${destChainId}-${log.transactionHash}`), 5000);
   }
 }
 

@@ -18,12 +18,13 @@ import {
   arbitrumGoerli,
   avalancheFuji,
   fantomTestnet,
+  optimismGoerli,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, publicClient } = configureChains(
-  [arbitrumGoerli, avalancheFuji, fantomTestnet],
+  [optimismGoerli, arbitrumGoerli, avalancheFuji, fantomTestnet],
   [
     publicProvider()
   ]

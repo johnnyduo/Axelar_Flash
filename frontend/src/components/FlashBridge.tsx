@@ -6,14 +6,9 @@ import { Fragment, useState } from "react";
 import MyTokenABI from "../abis/MyToken.json"
 import { Modal } from "react-bootstrap";
 import { waitForFlashRelayer } from "../utils/relayer";
+import { CHAIN_NAME, EVM_CHAIN, GAS_TOKEN, axelarSdk } from "../utils/axelar";
 
-const CHAIN_NAME = {
-  4002: "Fantom",
-  43113: "Avalanche",
-  5: "ethereum-2",
-  420: "optimism",
-  421613: "arbitrum",
-}
+const GAS_LIMIT = 150000
 
 export default function FlashBridge({ name, symbol, address, flashLimit }) {
   const publicClient = usePublicClient();
@@ -59,9 +54,17 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
     try {
       setIsBridging(true);
 
+      // Estimate cross-chain transaction fee
+      const gasFee: string = await axelarSdk.estimateGasFee(
+        EVM_CHAIN[chain?.id || "0"],
+        EVM_CHAIN[destinationChain],
+        GAS_TOKEN[chain?.id || "0"],
+        GAS_LIMIT,
+      ) as string
+
       const tx = await requestBridge({
         args: [CHAIN_NAME[destinationChain], parseEther(amount), Math.floor(Math.random() * 1000000000)],
-        value: parseEther("2"),
+        value: BigInt(gasFee) * BigInt(2),
       });
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
