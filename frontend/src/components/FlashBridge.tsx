@@ -130,7 +130,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
                 <option value="43113">Avalanche Testnet</option>
                 <option value="4002">Fantom Testnet</option>
                 <option value="421613">Arbitrum Testnet</option>
-                {/* <option value="420">Optimism Testnet</option> */}
+                <option value="420">Optimism Testnet</option>
               </select>
               <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == destinationChain)?.result || "0"))} {symbol}</label>
             </div>
