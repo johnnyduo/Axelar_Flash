@@ -5,6 +5,15 @@ import { formatEther, parseEther } from "viem";
 import { Fragment, useState } from "react";
 import MyTokenABI from "../abis/MyToken.json"
 import { Modal } from "react-bootstrap";
+import { waitForFlashRelayer } from "../utils/relayer";
+
+const CHAIN_NAME = {
+  4002: "Fantom",
+  43113: "Avalanche",
+  5: "ethereum-2",
+  420: "optimism",
+  421613: "arbitrum",
+}
 
 export default function FlashBridge({ name, symbol, address, flashLimit }) {
   const publicClient = usePublicClient();
@@ -37,6 +46,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
 
       const tx = await requestFaucet({
         args: [walletAddress, parseEther("100")],
+        value: parseEther("2"),
       });
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
@@ -47,7 +57,23 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
   }
 
   async function bridge() {
-    
+    try {
+      setIsBridging(true);
+
+      const tx = await requestBridge({
+        args: [CHAIN_NAME[destinationChain], parseEther(amount), Math.floor(Math.random() * 1000000000)],
+      });
+      await publicClient.waitForTransactionReceipt({ hash: tx.hash })
+
+      await waitForFlashRelayer(destinationChain, tx.hash)
+
+      window.alert("Flash Bridge Success!")
+
+      setShowFlashBridgeModal(false)
+      refetch()
+    } finally {
+      setIsBridging(false);
+    }
   }
 
   return (
@@ -110,6 +136,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
               type="button"
               className="btn btn-lg w-100 btn-primary mt-2"
               disabled={isBridging}
+              onClick={() => bridge()}
             >
               Bridge
             </button>

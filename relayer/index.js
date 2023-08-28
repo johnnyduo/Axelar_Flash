@@ -1,6 +1,7 @@
 require("dotenv").config()
 
 const ethers = require("ethers")
+const cors = require('cors')
 
 const express = require('express')
 const app = express()
@@ -148,6 +149,8 @@ async function fetchLogs() {
 fetchLogs()
 
 process.on('unhandledRejection', err => console.error(err))
+
+app.use(cors())
 
 app.get('/:chainId/:txHash', (req, res) => {
   res.send({
