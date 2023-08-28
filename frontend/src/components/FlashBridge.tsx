@@ -46,7 +46,6 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
 
       const tx = await requestFaucet({
         args: [walletAddress, parseEther("100")],
-        value: parseEther("2"),
       });
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
@@ -62,6 +61,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
 
       const tx = await requestBridge({
         args: [CHAIN_NAME[destinationChain], parseEther(amount), Math.floor(Math.random() * 1000000000)],
+        value: parseEther("2"),
       });
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
