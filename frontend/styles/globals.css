@@ -8,3 +8,11 @@
 .text-gray {
   color: #7184ad;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Balance from "../src/components/Balance";
 import DomainRegistrationModal from "../src/components/DomainRegistrationModal";
 import DashboardLayout from "../src/layouts/dashboard/DashboardLayout";
+import FlashBridge from "../src/components/FlashBridge";
 
 const Dashboard: NextPage = () => {
   const [showRegisterDialog, setShowRegisterDialog] = useState(false);
@@ -31,7 +32,7 @@ const Dashboard: NextPage = () => {
               <div className="wallet-widget card">
                 <h5>Total Flash Limit</h5>
                 <h2>
-                  <span className="text-success">28,000 $</span>
+                  <span className="text-success">280,000 $</span>
                 </h2>
                 <h5>
                   <span className="text-gray">(Only tokens on Coingecko)</span>
@@ -89,74 +90,26 @@ const Dashboard: NextPage = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <div className="coin-name">
-                              <i className="icofont-check-circled text-success"></i>
-                              <span>Very Insure</span>
-                            </div>
-                          </td>
-                          <td>VI</td>
-                          <td>0x1234...abcd</td>
-                          <td>2,000 VI</td>
-                          <td>420 VI</td>
-                          <td>
-                            <Link href="#">
-                              <div className="btn btn-primary">Flash Bridge</div>
-                            </Link>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div className="coin-name">
-                              <i className="icofont-warning text-warning" />
-                              <span>Super OP</span>
-                            </div>
-                          </td>
-                          <td>SUPOP</td>
-                          <td>0x1234...abcd</td>
-                          <td>200 SUPOP</td>
-                          <td>20 SUPOP</td>
-                          <td>
-                            <Link href="#">
-                              <div className="btn btn-primary">Flash Bridge</div>
-                            </Link>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div className="coin-name">
-                              <i className="icofont-check-circled text-primary"/>
-                              <span>Layer 8 DAO</span>
-                            </div>
-                          </td>
-                          <td>L8DAO</td>
-                          <td>0x1234...abcd</td>
-                          <td>200,000 L8DAO</td>
-                          <td>120,000 L8DAO</td>
-                          <td>
-                            <Link href="#">
-                              <div className="btn btn-primary">Flash Bridge</div>
-                            </Link>
-                          </td>
-                        </tr>
-                        {/* <tr>
-                          <td>
-                            <div className="coin-name">
-                              <i className="cc BTC" />
-                              <span>Bitcoin</span>
-                            </div>
-                          </td>
-                          <td>35Hb5B6qJa5ntYaNFN3hGYXdAjh919g2VH</td>
-                          <td>
-                            <img
-                              className="qr-img"
-                              src="/images/qr.svg"
-                              alt=""
-                              width="40"
-                            />
-                          </td>
-                        </tr> */}
+                        <FlashBridge
+                          name={"Axelar Flash"}
+                          symbol={"FLASH"}
+                          address={"0x8fC08644565130c915609CF861951eDc0049F59f"}
+                          flashLimit={1000000}
+                        ></FlashBridge>
+
+                        <FlashBridge
+                          name={"Axelathon"}
+                          symbol={"AXLT"}
+                          address={"0xf6d7177c9aC3A61B03D78CF22BDb792352701fc6"}
+                          flashLimit={200000}
+                        ></FlashBridge>
+
+                        <FlashBridge
+                          name={"Johnny"}
+                          symbol={"JOHNNY"}
+                          address={"0x15D96EF4cec48E9C56C866b885DD4Ec24f00DdDF"}
+                          flashLimit={100000}
+                        ></FlashBridge>
                       </tbody>
                     </table>
                   </div>
@@ -210,10 +163,10 @@ const Dashboard: NextPage = () => {
                           <td>
                             <div className="coin-name">
                               <i className="icofont-warning text-warning" />
-                              <span>Very Insure (VI)</span>
+                              <span>Axelar Flash (FLASH)</span>
                             </div>
                           </td>
-                          <td>15,000 VI</td>
+                          <td>15,000 FLASH</td>
                           <td>600 USDC</td>
                           <td>400 USDC</td>
                           <td>

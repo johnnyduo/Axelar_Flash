@@ -1,7 +1,7 @@
 import { FC } from "react";
-import ConnectWalletButton from "../../components/ConnectWalletButton";
 import NotificationToggle from "./NotificationToggle";
 import ToggleHeaderUser from "./ToggleHeaderUser";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const DashboardHeader: FC = () => {
   return (
@@ -38,7 +38,7 @@ const DashboardHeader: FC = () => {
                 </div>
                 <NotificationToggle />
                 {/* <ToggleHeaderUser /> */}
-                <ConnectWalletButton />
+                <ConnectButton />
               </div>
             </div>
           </div>

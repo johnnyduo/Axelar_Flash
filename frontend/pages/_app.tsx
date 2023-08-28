@@ -7,6 +7,40 @@ import { useConnectWallet } from "../src/store/web3Modal/connectWallet";
 import { ENTRY_CHAIN_ID, switchChain } from "../src/utils/switchChain";
 import "../styles/globals.css";
 
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  arbitrumGoerli,
+  avalancheFuji,
+  fantomTestnet,
+} from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+
+const { chains, publicClient } = configureChains(
+  [arbitrumGoerli, avalancheFuji, fantomTestnet],
+  [
+    publicProvider()
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: "Axelar Flash",
+  projectId: "dd2a5d8744a5d72247899ef644bf8e1e",
+  chains,
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient
+})
+
 declare global {
   interface Window {
     ethereum: any;
@@ -15,24 +49,24 @@ declare global {
   }
 }
 
-function SwitchChain() {
-  const { connectWallet, web3, address, networkId, connected } =
-    useConnectWallet();
+// function SwitchChain() {
+//   const { connectWallet, web3, address, networkId, connected } =
+//     useConnectWallet();
 
-  useEffect(() => {
-    if (address) {
-      if (networkId != ENTRY_CHAIN_ID) {
-        if (window.ethereum) {
-          switchChain(ENTRY_CHAIN_ID);
-        }
-      }
-    }
-  }, [address, networkId]);
+//   useEffect(() => {
+//     if (address) {
+//       if (networkId != ENTRY_CHAIN_ID) {
+//         if (window.ethereum) {
+//           switchChain(ENTRY_CHAIN_ID);
+//         }
+//       }
+//     }
+//   }, [address, networkId]);
 
-  return (
-    <div></div>
-  )
-}
+//   return (
+//     <div></div>
+//   )
+// }
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [load, setLoad] = useState(true);
@@ -44,9 +78,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <Provider store={store}>
-        <SwitchChain></SwitchChain>
-        {load && <PreLoader />}
-        <Component {...pageProps} />
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider chains={chains}>
+            {/* <SwitchChain></SwitchChain> */}
+            {load && <PreLoader />}
+            <Component {...pageProps} />
+          </RainbowKitProvider>
+        </WagmiConfig>
       </Provider>
     </Fragment>
   );

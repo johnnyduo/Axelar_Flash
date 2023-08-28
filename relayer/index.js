@@ -2,6 +2,10 @@ require("dotenv").config()
 
 const ethers = require("ethers")
 
+const express = require('express')
+const app = express()
+const port = 3987
+
 const AxelarFlashService = require("./AxelarFlashService.json")
 const AxelarFlashPoolFactory = require("./AxelarFlashPoolFactory.json")
 
@@ -43,6 +47,7 @@ const NETWORKS = {
 const chainName2Id = {}
 
 const PUSHED = new Set();
+const RELAYED = new Set();
 const QUEUE = []
 
 for (const chainId in NETWORKS) {
@@ -78,6 +83,8 @@ async function relay(sourceChainId, log) {
       const receipt = await tx.wait()
 
       console.log("Relayed", NETWORKS[sourceChainId].name, NETWORKS[chainName2Id[data.args[1]]].name, receipt.hash)
+
+      RELAYED.add(`${destChainId}-${log.transactionHash}`)
     }
   } catch (err) {
     console.error(err)
@@ -141,3 +148,13 @@ async function fetchLogs() {
 fetchLogs()
 
 process.on('unhandledRejection', err => console.error(err))
+
+app.get('/:chainId/:txHash', (req, res) => {
+  res.send({
+    relayed: RELAYED.has(`${req.params.chainId}-${req.params.txHash}`),
+  })
+})
+
+app.listen(port, () => {
+  console.log(`Relayer listening on port ${port}`)
+})

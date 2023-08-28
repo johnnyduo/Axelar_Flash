@@ -44,7 +44,7 @@ const DashboardSidebar: FC = () => {
               </a>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/history">
               <a>
                 <span>
@@ -52,7 +52,7 @@ const DashboardSidebar: FC = () => {
                 </span>
               </a>
             </Link>
-          </li>
+          </li> */}
           
           {/* <li>
             <Link href="/wallet">
@@ -73,7 +73,7 @@ const DashboardSidebar: FC = () => {
             </Link>
           </li> */}
           <li className="logout">
-            <Link href="/signin">
+            <Link href="/">
               <a>
                 <span>
                   <i className="bi bi-power"></i>

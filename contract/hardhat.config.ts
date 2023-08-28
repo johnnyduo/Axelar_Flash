@@ -51,7 +51,7 @@ const config: HardhatUserConfig = {
       accounts: [ PRIVATE_KEY ],
     },
     optimism_goerli: {
-      url: `https://optimism-goerli.public.blastapi.io`,
+      url: `https://goerli.optimism.io/`,
       chainId: 420,
       accounts: [ PRIVATE_KEY ],
     },

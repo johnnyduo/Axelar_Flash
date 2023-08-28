@@ -57,9 +57,9 @@ export default function ConnectWalletButton() {
   }, [signer])
 
   useEffect(() => {
-    if (connected && signer && !signed) {
-      signAction();
-    }
+    // if (connected && signer && !signed) {
+    //   signAction();
+    // }
   }, [connected, signed, signer])
 
   return (
