@@ -162,7 +162,7 @@ const Dashboard: NextPage = () => {
                         <tr>
                           <td>
                             <div className="coin-name">
-                              <i className="icofont-warning text-warning" />
+                              <i className="icofont-check-circled text-success" />
                               <span>Axelar Flash (FLASH)</span>
                             </div>
                           </td>

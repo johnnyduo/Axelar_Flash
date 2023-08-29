@@ -17,12 +17,13 @@ const NFT_ADDRESS = "0xc4719c31396898cF18d3A796725A60A93CaF98ea"
 
 const Nft: NextPage = () => {
   const publicClient = usePublicClient();
-  const { chain } = useNetwork();
+  const { chain, chains } = useNetwork();
 
   const [showMintDialog, setShowMintDialog] = useState(false);
   const [mintStatus, setMintStatus] = useState("")
   const [axelarTxHash, setAxelarTxHash] = useState("")
   const [flashTxHash, setFlashTxHash] = useState("")
+  const [flashExplorerUrl, setFlashExplorerUrl] = useState("")
 
   const { writeAsync: requestApprove } = useContractWrite({
     address: "0x8fC08644565130c915609CF861951eDc0049F59f",
@@ -69,7 +70,9 @@ const Nft: NextPage = () => {
 
       setMintStatus("Flash Relaying")
 
-      setFlashTxHash(await waitForFlashRelayer(destinationChain, tx.hash))
+      const flashTx = await waitForFlashRelayer(destinationChain, tx.hash)
+      setFlashTxHash(flashTx)
+      setFlashExplorerUrl(chains.find(x => x.id == destinationChain)?.blockExplorers?.default.url + "/tx/" + flashTx)
 
       setMintStatus("Success")
     } catch (err) {
@@ -83,6 +86,7 @@ const Nft: NextPage = () => {
       setMintStatus("")
       setAxelarTxHash("")
       setFlashTxHash("")
+      setFlashExplorerUrl("")
     }
   }, [showMintDialog])
 
@@ -161,9 +165,15 @@ const Nft: NextPage = () => {
           }
           {flashTxHash &&
             <div className="d-flex justify-content-center">
-              Flash Tx:&nbsp;<a href={chain?.blockExplorers![0].url + "/tx/" + axelarTxHash} target="_blank">{addressParse(flashTxHash)}</a>
+              Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank">{addressParse(flashTxHash)}</a>
             </div>
           }
+
+          {mintStatus == "Success" && (
+            <button className="btn btn-primary w-100 mt-2" onClick={() => setShowMintDialog(false)}>
+              Continue
+            </button>
+          )}
         </div>
       </Modal>
     </DashboardLayout>

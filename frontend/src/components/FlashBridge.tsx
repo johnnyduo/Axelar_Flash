@@ -13,7 +13,7 @@ const GAS_LIMIT = 150000
 export default function FlashBridge({ name, symbol, address, flashLimit }) {
   const publicClient = usePublicClient();
   const { address: walletAddress } = useAccount();
-  const { chain } = useNetwork();
+  const { chain, chains } = useNetwork();
   const { data: balances, isLoading, isSuccess, refetch } = useTokenBalances(address);
 
   const [ amount, setAmount ] = useState("")
@@ -26,6 +26,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
   const [bridgeStatus, setBridgeStatus] = useState("")
   const [axelarTxHash, setAxelarTxHash] = useState("")
   const [flashTxHash, setFlashTxHash] = useState("")
+  const [flashExplorerUrl, setFlashExplorerUrl] = useState("")
 
   const { writeAsync: requestFaucet } = useContractWrite({
     address,
@@ -73,11 +74,14 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
       setAxelarTxHash(tx.hash)
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
-      setFlashTxHash(await waitForFlashRelayer(destinationChain, tx.hash))
+      setBridgeStatus("Flash Relaying")
 
-      window.alert("Flash Bridge Success!")
+      const flashTx = await waitForFlashRelayer(destinationChain, tx.hash)
+      setFlashTxHash(flashTx)
+      setFlashExplorerUrl(chains.find(x => x.id == destinationChain)?.blockExplorers?.default.url + "/tx/" + flashTx)
 
-      setShowFlashBridgeModal(false)
+      setBridgeStatus("Success")
+
       refetch()
     } finally {
       setIsBridging(false);
@@ -89,6 +93,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
       setBridgeStatus("")
       setAxelarTxHash("")
       setFlashTxHash("")
+      setFlashExplorerUrl("")
     }
   }, [showFlashBridgeModal])
 
@@ -129,33 +134,68 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="mb-2 text-dark bold">Source chain: {chain?.name}</div>
+            {bridgeStatus ? (
+              <div>
+                <div className="d-flex justify-content-center my-3">
+                  {bridgeStatus == "Success" ? (
+                    <i className="bi bi-check-circle text-success d-flex" style={{ fontSize: "4rem" }}></i>
+                  ) : (
+                    <div className="spinner-grow text-primary" style={{ width: "4rem", height: "4rem" }}></div>
+                  )}
+                </div>
+      
+                <div className="d-flex justify-content-center text-dark" style={{ fontSize: "1.5rem" }}>
+                  {bridgeStatus}{bridgeStatus != "Success" ? "..." : ""}
+                </div>
+      
+                {axelarTxHash &&
+                  <div className="d-flex justify-content-center">
+                    Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank">{addressParse(axelarTxHash)}</a>
+                  </div>
+                }
+                {flashTxHash &&
+                  <div className="d-flex justify-content-center">
+                    Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank">{addressParse(flashTxHash)}</a>
+                  </div>
+                }
+      
+                {bridgeStatus == "Success" && (
+                  <button className="btn btn-primary w-100 mt-2" onClick={() => setShowFlashBridgeModal(false)}>
+                    Continue
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div>
+                <div className="mb-2 text-dark bold">Source chain: {chain?.name}</div>
 
-            <div className="col-12 mb-2">
-              <label className="form-label">Amount ({symbol})</label>
-              <input className="form-control" disabled={isBridging} value={amount} onChange={e => setAmount(e.target.value)}></input>
-              <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == chain?.id)?.result || "0"))} {symbol}</label>
-            </div>
+                <div className="col-12 mb-2">
+                  <label className="form-label">Amount ({symbol})</label>
+                  <input className="form-control" disabled={isBridging} value={amount} onChange={e => setAmount(e.target.value)}></input>
+                  <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == chain?.id)?.result || "0"))} {symbol}</label>
+                </div>
 
-            <div className="col-12">
-              <label className="form-label">Destination Chain</label>
-              <select className="form-control" disabled={isBridging} value={destinationChain.toString()} onChange={e => setDestinationChain(parseInt(e.target.value))}>
-                <option value="43113">Avalanche Testnet</option>
-                <option value="4002">Fantom Testnet</option>
-                <option value="421613">Arbitrum Testnet</option>
-                <option value="420">Optimism Testnet</option>
-              </select>
-              <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == destinationChain)?.result || "0"))} {symbol}</label>
-            </div>
+                <div className="col-12">
+                  <label className="form-label">Destination Chain</label>
+                  <select className="form-control" disabled={isBridging} value={destinationChain.toString()} onChange={e => setDestinationChain(parseInt(e.target.value))}>
+                    <option value="43113">Avalanche Testnet</option>
+                    <option value="4002">Fantom Testnet</option>
+                    <option value="421613">Arbitrum Testnet</option>
+                    <option value="420">Optimism Testnet</option>
+                  </select>
+                  <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == destinationChain)?.result || "0"))} {symbol}</label>
+                </div>
 
-            <button
-              type="button"
-              className="btn btn-lg w-100 btn-primary mt-2"
-              disabled={isBridging}
-              onClick={() => bridge()}
-            >
-              Bridge
-            </button>
+                <button
+                  type="button"
+                  className="btn btn-lg w-100 btn-primary mt-2"
+                  disabled={isBridging}
+                  onClick={() => bridge()}
+                >
+                  Bridge
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </Modal>

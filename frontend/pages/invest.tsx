@@ -126,7 +126,7 @@ const Dashboard: NextPage = () => {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h4 className="card-title">Very Insure <span className="text-gray">(VI)</span></h4>
+                    <h4 className="card-title">Axelar Flash <span className="text-gray">(FLASH)</span></h4>
                     <div></div>
                     {/* <button className="btn btn-primary" onClick={() => setShowRegisterDialog(true)}>
                       + Register Domain
@@ -136,12 +136,12 @@ const Dashboard: NextPage = () => {
                     <div className="row mb-4">
                       <div className="col-4 d-flex flex-column align-items-center">
                         <h5>Total Locked Value</h5>
-                        <h5 className="text-gray">50,000 VI</h5>
+                        <h5 className="text-gray">50,000 FLASH</h5>
                       </div>
 
                       <div className="col-4 d-flex flex-column align-items-center">
                         <h5>Total Volume</h5>
-                        <h5 className="text-gray">100,000 VI</h5>
+                        <h5 className="text-gray">100,000 FLASH</h5>
                       </div>
 
                       <div className="col-4 d-flex flex-column align-items-center">

@@ -102,7 +102,7 @@ const Dashboard: NextPage = () => {
                             9,000 USDC
                           </td>
                           <td>
-                            <a href="#">veryinsure.eth</a>
+                            <a href="#">axelarflash.eth</a>
                           </td>
                           {/* <td>{new Date(2023, 4, 1).toLocaleString()}</td> */}
                           <td>
@@ -113,19 +113,19 @@ const Dashboard: NextPage = () => {
                         <tr>
                           <td>
                             <div className="coin-name">
-                              <i className="icofont-check-circled text-warning"></i>
-                              <span>Very Insure (VI)</span>
+                              <i className="icofont-check-circled text-success"></i>
+                              <span>Axelar Flash (FLASH)</span>
                             </div>
                           </td>
-                          <td>50,000 VI</td>
+                          <td>50,000 FLASH</td>
                           <td>
-                            100,000 VI
+                            100,000 FLASH
                           </td>
                           <td>
                             5,000 USDC
                           </td>
                           <td>
-                            <a href="#">veryinsure.eth</a>
+                            <a href="#">axelarflash.eth</a>
                           </td>
                           {/* <td>{new Date(2023, 5, 10).toLocaleString()}</td> */}
                           <td>
