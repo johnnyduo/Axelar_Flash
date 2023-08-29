@@ -6,10 +6,14 @@ import { useConnectWallet } from "../../store/web3Modal/connectWallet";
 import { signMessage } from "../../utils/nft";
 import DashboardHeader from "./DashboardHeader";
 import DashboardSidebar from "./DashboardSidebar";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 const DashboardLayout: FC = ({ children }) => {
-  const signer = useSigner();
-  const signed = useSelector((state: any) => state.web3Modal.signed);
+  // const signer = useSigner();
+  // const signed = useSelector((state: any) => state.web3Modal.signed);
+
+  const { isConnected, address } = useAccount();
 
   useEffect(() => {
     document.querySelector("body")?.classList.add("dashboard");
@@ -22,8 +26,8 @@ const DashboardLayout: FC = ({ children }) => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      {true ? <div>{children}</div> : (
-        <div style={true ? {} : {
+      {isConnected && address ? <div>{children}</div> : (
+        <div style={isConnected && address ? {} : {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -33,6 +37,8 @@ const DashboardLayout: FC = ({ children }) => {
           <div className="mb-4">
             <img src="/images/axl_flash_logo.png" width={220} />
           </div>
+
+          <ConnectButton />
           
           {/* <ConnectWalletButton></ConnectWalletButton> */}
         </div>
