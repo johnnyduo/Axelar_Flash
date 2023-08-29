@@ -22,8 +22,8 @@ const DashboardLayout: FC = ({ children }) => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      {signed ? <div>{children}</div> : (
-        <div style={signed ? {} : {
+      {true ? <div>{children}</div> : (
+        <div style={true ? {} : {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -34,7 +34,7 @@ const DashboardLayout: FC = ({ children }) => {
             <img src="/images/axl_flash_logo.png" width={220} />
           </div>
           
-          <ConnectWalletButton></ConnectWalletButton>
+          {/* <ConnectWalletButton></ConnectWalletButton> */}
         </div>
       )}
     </div>
