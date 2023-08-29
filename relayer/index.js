@@ -48,7 +48,7 @@ const NETWORKS = {
 const chainName2Id = {}
 
 const PUSHED = new Set();
-const RELAYED = new Set();
+const RELAYED = {};
 const QUEUE = []
 
 for (const chainId in NETWORKS) {
@@ -78,20 +78,18 @@ async function relay(sourceChainId, log) {
         NETWORKS[sourceChainId].name, 
         data.args[0], 
         data.args[3],
-        destChainId == 420 ? { gasPrice: 10000000 } : {},
+        destChainId == 420 || destChainId == 421613 ? { gasPrice: 100000000 } : {},
       )
   
       const receipt = await tx.wait()
 
       console.log("Relayed", NETWORKS[sourceChainId].name, NETWORKS[chainName2Id[data.args[1]]].name, receipt.hash)
 
-      RELAYED.add(`${destChainId}-${log.transactionHash}`)
+      RELAYED[`${destChainId}-${log.transactionHash}`] = tx.hash
     }
   } catch (err) {
     console.error(err)
     console.log("Relay ERROR")
-
-    setTimeout(() => RELAYED.add(`${destChainId}-${log.transactionHash}`), 5000);
   }
 }
 
@@ -156,7 +154,7 @@ app.use(cors())
 
 app.get('/:chainId/:txHash', (req, res) => {
   res.send({
-    relayed: RELAYED.has(`${req.params.chainId}-${req.params.txHash}`),
+    relayed: RELAYED[`${req.params.chainId}-${req.params.txHash}`] ?? false,
   })
 })
 

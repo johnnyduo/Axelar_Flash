@@ -2,7 +2,7 @@ import { useAccount, useContractWrite, useNetwork, usePublicClient } from "wagmi
 import useTokenBalances from "../hooks/useTokenBalances";
 import addressParse from "../utils/addressParse";
 import { formatEther, parseEther } from "viem";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import MyTokenABI from "../abis/MyToken.json"
 import { Modal } from "react-bootstrap";
 import { waitForFlashRelayer } from "../utils/relayer";
@@ -22,6 +22,10 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
   const [ showFlashBridgeModal, setShowFlashBridgeModal ] = useState(false);
   const [ isRequestingFaucet, setIsRequestingFaucet ] = useState(false);
   const [ isBridging, setIsBridging ] = useState(false);
+
+  const [bridgeStatus, setBridgeStatus] = useState("")
+  const [axelarTxHash, setAxelarTxHash] = useState("")
+  const [flashTxHash, setFlashTxHash] = useState("")
 
   const { writeAsync: requestFaucet } = useContractWrite({
     address,
@@ -66,9 +70,10 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
         args: [CHAIN_NAME[destinationChain], parseEther(amount), Math.floor(Math.random() * 1000000000)],
         value: BigInt(gasFee) * BigInt(2),
       });
+      setAxelarTxHash(tx.hash)
       await publicClient.waitForTransactionReceipt({ hash: tx.hash })
 
-      await waitForFlashRelayer(destinationChain, tx.hash)
+      setFlashTxHash(await waitForFlashRelayer(destinationChain, tx.hash))
 
       window.alert("Flash Bridge Success!")
 
@@ -78,6 +83,14 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
       setIsBridging(false);
     }
   }
+
+  useEffect(() => {
+    if (!showFlashBridgeModal) {
+      setBridgeStatus("")
+      setAxelarTxHash("")
+      setFlashTxHash("")
+    }
+  }, [showFlashBridgeModal])
 
   return (
     <Fragment>
@@ -94,7 +107,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
         <td>{formatEther(BigInt(balances.find(x => x.chainId == chain?.id)?.result || "0"))} {symbol}</td>
         <td>
           <button className="btn btn-warning me-2" disabled={isRequestingFaucet} onClick={() => faucet()}>Faucet</button>
-          <button className="btn btn-primary" onClick={() => setShowFlashBridgeModal(true)}>Flash Bridge</button>
+          <button className="btn btn-primary" onClick={() => setShowFlashBridgeModal(true)}>Bridge</button>
         </td>
       </tr>
 

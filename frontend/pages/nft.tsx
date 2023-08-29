@@ -22,6 +22,7 @@ const Nft: NextPage = () => {
   const [showMintDialog, setShowMintDialog] = useState(false);
   const [mintStatus, setMintStatus] = useState("")
   const [axelarTxHash, setAxelarTxHash] = useState("")
+  const [flashTxHash, setFlashTxHash] = useState("")
 
   const { writeAsync: requestApprove } = useContractWrite({
     address: "0x8fC08644565130c915609CF861951eDc0049F59f",
@@ -68,7 +69,7 @@ const Nft: NextPage = () => {
 
       setMintStatus("Flash Relaying")
 
-      await waitForFlashRelayer(destinationChain, tx.hash)
+      setFlashTxHash(await waitForFlashRelayer(destinationChain, tx.hash))
 
       setMintStatus("Success")
     } catch (err) {
@@ -81,6 +82,7 @@ const Nft: NextPage = () => {
     if (!showMintDialog) {
       setMintStatus("")
       setAxelarTxHash("")
+      setFlashTxHash("")
     }
   }, [showMintDialog])
 
@@ -90,7 +92,7 @@ const Nft: NextPage = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 col-md-6">
-
+              <img className="rounded" src="/images/flashnft.jpg" style={{ width: "100%", maxWidth: 600}} />
             </div>
 
             <div className="col-12 col-md-6">
@@ -141,16 +143,27 @@ const Nft: NextPage = () => {
 
         <div className="modal-body">
           <div className="d-flex justify-content-center my-3">
-            <div className="spinner-grow text-primary" style={{ width: "4rem", height: "4rem" }}></div>
+            {mintStatus == "Success" ? (
+              <i className="bi bi-check-circle text-success d-flex" style={{ fontSize: "4rem" }}></i>
+            ) : (
+              <div className="spinner-grow text-primary" style={{ width: "4rem", height: "4rem" }}></div>
+            )}
           </div>
 
           <div className="d-flex justify-content-center text-dark" style={{ fontSize: "1.5rem" }}>
             {mintStatus}{mintStatus != "Success" ? "..." : ""}
           </div>
 
-          <div className="d-flex justify-content-center">
-            Axelar Tx: <a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank">{addressParse(axelarTxHash)}</a>
-          </div>
+          {axelarTxHash &&
+            <div className="d-flex justify-content-center">
+              Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank">{addressParse(axelarTxHash)}</a>
+            </div>
+          }
+          {flashTxHash &&
+            <div className="d-flex justify-content-center">
+              Flash Tx:&nbsp;<a href={chain?.blockExplorers![0].url + "/tx/" + axelarTxHash} target="_blank">{addressParse(flashTxHash)}</a>
+            </div>
+          }
         </div>
       </Modal>
     </DashboardLayout>
