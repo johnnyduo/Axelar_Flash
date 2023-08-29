@@ -150,7 +150,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
       
                 {axelarTxHash &&
                   <div className="d-flex justify-content-center">
-                    Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank">{addressParse(axelarTxHash)}</a>
+                    Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank" rel="noopener">{addressParse(axelarTxHash)}</a>
                   </div>
                 }
                 {flashTxHash &&

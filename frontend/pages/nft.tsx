@@ -165,7 +165,7 @@ const Nft: NextPage = () => {
           }
           {flashTxHash &&
             <div className="d-flex justify-content-center">
-              Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank">{addressParse(flashTxHash)}</a>
+              Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank" rel="noopener">{addressParse(flashTxHash)}</a>
             </div>
           }
 
