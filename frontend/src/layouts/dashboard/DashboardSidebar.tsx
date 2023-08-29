@@ -27,6 +27,15 @@ const DashboardSidebar: FC = () => {
             </Link>
           </li>
           <li>
+            <Link href="/nft">
+              <a>
+                <span>
+                  <i className="bi bi-images"></i>
+                </span>
+              </a>
+            </Link>
+          </li>
+          <li>
             <Link href="/invest">
               <a>
                 <span>

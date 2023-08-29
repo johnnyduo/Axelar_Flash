@@ -100,7 +100,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
 
       <Modal
         className="modal fade"
-        id="flash-bridge-modal"
+        id={"flash-bridge-modal-" + address}
         show={showFlashBridgeModal}
         onHide={() => setShowFlashBridgeModal(false)}
       >

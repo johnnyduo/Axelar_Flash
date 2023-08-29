@@ -19,7 +19,7 @@ const DashboardLayout: FC = ({ children }) => {
     document.querySelector("body")?.classList.add("dashboard");
   }, []);
 
-  if (typeof window === "undefined") return <div></div>
+  if (typeof window === "undefined") return <div style={{ marginTop: 120 }}></div>
 
   return (
     <div id="main-wrapper" className="show">
