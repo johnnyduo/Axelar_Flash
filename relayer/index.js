@@ -78,7 +78,7 @@ async function relay(sourceChainId, log) {
         NETWORKS[sourceChainId].name, 
         data.args[0], 
         data.args[3],
-        destChainId == 420 || destChainId == 421613 ? { gasPrice: 100000000 } : {},
+        destChainId == 420 ? { gasPrice: 100000000 } : {},
       )
   
       const receipt = await tx.wait()

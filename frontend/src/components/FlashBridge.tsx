@@ -150,12 +150,12 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
       
                 {axelarTxHash &&
                   <div className="d-flex justify-content-center">
-                    Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank" rel="noopener">{addressParse(axelarTxHash)}</a>
+                    Axelar Tx:&nbsp;<a href={"https://testnet.axelarscan.io/gmp/" + axelarTxHash} target="_blank" rel="noreferrer">{addressParse(axelarTxHash)}</a>
                   </div>
                 }
                 {flashTxHash &&
                   <div className="d-flex justify-content-center">
-                    Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank">{addressParse(flashTxHash)}</a>
+                    Flash Tx:&nbsp;<a href={flashExplorerUrl} target="_blank" rel="noreferrer">{addressParse(flashTxHash)}</a>
                   </div>
                 }
       
