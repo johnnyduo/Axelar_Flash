@@ -32,7 +32,7 @@ const { chains, publicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: "Axelar Flash",
-  projectId: "dd2a5d8744a5d72247899ef644bf8e1e",
+  projectId: "84ae9c084581a3b379c0e705b920dc26",
   chains,
 });
 

@@ -8,7 +8,7 @@ export async function waitForFlashRelayer(destChainId: number, txHash: string): 
   while (!relayed) {
     await wait(1000);
     try {
-      const response = await axios.get(`http://206.189.47.64:3987/${destChainId}/${txHash}`)
+      const response = await axios.get(`https://axelarflash-relayer.mar.insure/${destChainId}/${txHash}`)
       relayed = response.data.relayed;
     } catch (err) {
       console.error(err)
