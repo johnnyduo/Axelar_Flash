@@ -55,7 +55,7 @@ const Index: NextPage = () => {
                     <label className="form-label">Enter Your Bridge Amount</label>
                     <div className="input-group">
                       <select className="form-control" name="method">
-                        <option value="origin">ORIGIN</option>
+                        <option value="source">SOURCE</option>
                         <option value="Avax">Avax</option>
 
                       </select>
