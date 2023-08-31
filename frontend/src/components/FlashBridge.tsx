@@ -97,6 +97,9 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
     }
   }, [showFlashBridgeModal])
 
+  const sourceBalance = parseFloat(formatEther(balances.find(x => x.chainId == chain?.id)?.result || BigInt("0"))).toFixed(2)
+  const destBalance = parseFloat(formatEther(balances.find(x => x.chainId == destinationChain)?.result || BigInt("0"))).toFixed(2)
+
   return (
     <Fragment>
       <tr>
@@ -109,7 +112,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
         <td>{symbol}</td>
         <td>{addressParse(address)}</td>
         <td>{flashLimit.toLocaleString("en-US")} {symbol}</td>
-        <td>{formatEther(BigInt(balances.find(x => x.chainId == chain?.id)?.result || "0"))} {symbol}</td>
+        <td>{sourceBalance} {symbol}</td>
         <td>
           <button className="btn btn-warning me-2" disabled={isRequestingFaucet} onClick={() => faucet()}>Faucet</button>
           <button className="btn btn-primary" onClick={() => setShowFlashBridgeModal(true)}>Bridge</button>
@@ -172,7 +175,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
                 <div className="col-12 mb-2">
                   <label className="form-label">Amount ({symbol})</label>
                   <input className="form-control" disabled={isBridging} value={amount} onChange={e => setAmount(e.target.value)}></input>
-                  <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == chain?.id)?.result || "0"))} {symbol}</label>
+                  <label className="form-label mt-1">Balance: {sourceBalance} {symbol}</label>
                 </div>
 
                 <div className="col-12">
@@ -183,7 +186,7 @@ export default function FlashBridge({ name, symbol, address, flashLimit }) {
                     <option value="421613">Arbitrum Testnet</option>
                     <option value="420">Optimism Testnet</option>
                   </select>
-                  <label className="form-label mt-1">Balance: {formatEther(BigInt(balances.find(x => x.chainId == destinationChain)?.result || "0"))} {symbol}</label>
+                  <label className="form-label mt-1">Balance: {destBalance} {symbol}</label>
                 </div>
 
                 <button
