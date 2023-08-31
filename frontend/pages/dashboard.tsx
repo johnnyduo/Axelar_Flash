@@ -70,10 +70,11 @@ const Dashboard: NextPage = () => {
             <div className="col-xxl-12">
               <div className="card">
                 <div className="card-header">
-                  <h4 className="card-title">Express Bridge</h4>
+                  <h4 className="card-title">Flash Bridge</h4>
                   {/* <button className="btn btn-primary" onClick={() => setShowRegisterDialog(true)}>
                     + Register Domain
-                  </button> */}
+                  </button> */
+                  }
                 </div>
                 <div className="card-body">
                   <div className="table-responsive">
