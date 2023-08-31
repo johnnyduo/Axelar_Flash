@@ -56,7 +56,9 @@ const Index: NextPage = () => {
                     <div className="input-group">
                       <select className="form-control" name="method">
                         <option value="source">SOURCE</option>
-                        <option value="Avax">Avax</option>
+                        <option value="Avalanche">Avalanche</option>
+                        <option value="Fantom">Fantom</option>
+                        <option value="Optimism">Optimism</option>
 
                       </select>
                       <input
@@ -72,7 +74,10 @@ const Index: NextPage = () => {
                     <div className="input-group">
                       <select className="form-control" name="method">
                         <option value="dest">DEST</option>
-                        <option value="Fantom">USDC</option>
+                        <option value="Fantom">Fantom</option>
+                        <option value="Avalanche">Avalanche</option>
+                        <option value="Optimism">Optimism</option>
+
                       </select>
                       <input
                         type="text"
@@ -89,11 +94,13 @@ const Index: NextPage = () => {
                       No extra fees
                     </span>
                   </p>
+                  <Link href="/dashboard">
                   <input
                     type="submit"
                     className="btn btn-primary"
                     value="Flash Now"
                   />
+                  </Link>
                 </form>
               </div>
             </div>
